@@ -7,9 +7,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class UsersController 
+class UsersController
 {
     private const PAGE_SIZE = 20;
+
     private const MAX_PAGE_SIZE = 100;
 
     // GET /api/users
@@ -32,9 +33,9 @@ class UsersController
         $this->somenteDono($request, $user);
 
         $dados = $request->validate([
-            'nome'  => ['required', 'string', 'max:255'],
+            'nome' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
-            'tipo'  => ['required', Rule::in(['recrutador', 'candidato'])],
+            'tipo' => ['required', Rule::in(['recrutador', 'candidato'])],
         ]);
 
         $user->update($dados);

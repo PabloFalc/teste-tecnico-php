@@ -14,16 +14,16 @@ class AuthController
     public function register(Request $request): JsonResponse
     {
         $dados = $request->validate([
-            'nome'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'unique:users,email'],
+            'nome' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'tipo'     => ['required', Rule::in(['recrutador', 'candidato'])],
+            'tipo' => ['required', Rule::in(['recrutador', 'candidato'])],
         ]);
 
         $user = User::create($dados);
 
         return response()->json([
-            'user'  => $user,
+            'user' => $user,
             'token' => $user->createToken('api')->plainTextToken,
         ], 201);
     }
@@ -32,7 +32,7 @@ class AuthController
     public function login(Request $request): JsonResponse
     {
         $dados = $request->validate([
-            'email'    => ['required', 'email'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
@@ -43,7 +43,7 @@ class AuthController
         }
 
         return response()->json([
-            'user'  => $user,
+            'user' => $user,
             'token' => $user->createToken('api')->plainTextToken,
         ]);
     }

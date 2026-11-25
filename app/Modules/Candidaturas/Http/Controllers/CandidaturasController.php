@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class CandidaturasController
 {
     private const PAGE_SIZE = 20;
+
     private const MAX_PAGE_SIZE = 100;
 
     // GET /api/candidaturas  (vagas em que o candidato logado se candidatou)
@@ -29,7 +30,7 @@ class CandidaturasController
 
         $candidaturas = $request->user()->candidaturas();
 
-        try { 
+        try {
             if ($candidaturas->where('vaga_id', $vaga->id)->exists()) {
                 return $this->jaCandidatado();
             }

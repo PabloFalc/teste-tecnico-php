@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 class VagasController
 {
     private const PAGE_SIZE = 20;
+
     private const MAX_PAGE_SIZE = 100;
 
     // GET /api/vagas  (somente vagas ativas)
@@ -84,9 +85,9 @@ class VagasController
     private function validar(Request $request): array
     {
         return $request->validate([
-            'titulo'    => ['required', 'string', 'max:255'],
+            'titulo' => ['required', 'string', 'max:255'],
             'descricao' => ['required', 'string'],
-            'tipo'      => ['required', Rule::in(['CLT', 'PJ', 'Freelancer'])],
+            'tipo' => ['required', Rule::in(['CLT', 'PJ', 'Freelancer'])],
         ]);
     }
 

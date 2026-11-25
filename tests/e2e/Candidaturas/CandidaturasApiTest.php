@@ -53,7 +53,6 @@ class CandidaturasApiTest extends TestCase
         $this->assertDatabaseCount('candidaturas', 3);
     }
 
-
     public function test_nao_se_candidata_em_vaga_inativa(): void
     {
         $vaga = Vaga::factory()->create(['ativa' => false]);
