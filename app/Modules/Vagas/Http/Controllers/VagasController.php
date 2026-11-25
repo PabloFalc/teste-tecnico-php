@@ -9,6 +9,17 @@ use Illuminate\Validation\Rule;
 
 class VagasController
 {
+    private const PAGE_SIZE = 20;
+    private const MAX_PAGE_SIZE = 100;
+
+    // GET /api/vagas  (somente vagas ativas)
+    public function list(Request $request): JsonResponse
+    {
+        $pageSize = min($request->integer('page_size', self::PAGE_SIZE), self::MAX_PAGE_SIZE);
+
+        return response()->json(Vaga::where('ativa', true)->latest()->paginate($pageSize));
+    }
+
     // POST /api/vagas
     public function store(Request $request): JsonResponse
     {
