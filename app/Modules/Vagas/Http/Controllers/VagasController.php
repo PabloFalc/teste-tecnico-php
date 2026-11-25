@@ -17,7 +17,18 @@ class VagasController
     {
         $pageSize = min($request->integer('page_size', self::PAGE_SIZE), self::MAX_PAGE_SIZE);
 
-        return response()->json(Vaga::where('ativa', true)->latest()->paginate($pageSize));
+        // Recrutador vê só as próprias vagas; ?congeladas=1 lista as congeladas.
+        // Candidato vê as vagas ativas de todos.
+        $vagas = Vaga::query();
+
+        if ($request->user()->tipo === 'recrutador') {
+            $vagas->where('user_id', $request->user()->id)
+                ->where('ativa', ! $request->boolean('congeladas'));
+        } else {
+            $vagas->where('ativa', true);
+        }
+
+        return response()->json($vagas->latest()->paginate($pageSize));
     }
 
     // POST /api/vagas
