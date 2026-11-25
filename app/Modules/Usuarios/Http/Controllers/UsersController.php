@@ -29,6 +29,8 @@ class UsersController
     // PUT /api/users/{user}
     public function update(Request $request, User $user): JsonResponse
     {
+        $this->somenteDono($request, $user);
+
         $dados = $request->validate([
             'nome'  => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
@@ -41,10 +43,18 @@ class UsersController
     }
 
     // DELETE /api/users/{user}
-    public function destroy(User $user): JsonResponse
+    public function destroy(Request $request, User $user): JsonResponse
     {
+        $this->somenteDono($request, $user);
+
         $user->delete();
 
         return response()->json(null, 204);
+    }
+
+    // Só o próprio usuário altera ou remove sua conta.
+    private function somenteDono(Request $request, User $user): void
+    {
+        abort_if($request->user()->id !== $user->id, 403, 'Sem permissão.');
     }
 }

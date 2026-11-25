@@ -10,9 +10,9 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
-});
 
-Route::get('/users', [UsersController::class, 'list']);
-Route::get('/users/{user}', [UsersController::class, 'show']);
-Route::put('/users/{user}', [UsersController::class, 'update']);
-Route::delete('/users/{user}', [UsersController::class, 'destroy']);
+    Route::get('/users', [UsersController::class, 'list']);
+    Route::get('/users/{user}', [UsersController::class, 'show']);
+    Route::put('/users/{user}', [UsersController::class, 'update']);
+    Route::delete('/users/{user}', [UsersController::class, 'destroy']);
+});
