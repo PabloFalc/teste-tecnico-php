@@ -85,16 +85,50 @@ class VagasApiTest extends TestCase
         $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'titulo' => 'Novo titulo']);
     }
 
-    public function test_update_nao_altera_dono_nem_ativa(): void
+    public function test_update_nao_altera_dono(): void
     {
         $vaga = Vaga::factory()->create();
         $outro = User::factory()->recrutador()->create();
         Sanctum::actingAs($vaga->recrutador);
 
-        $this->putJson("/api/vagas/{$vaga->id}", $this->dados(['user_id' => $outro->id, 'ativa' => false]))
-            ->assertOk();
+        $this->putJson("/api/vagas/{$vaga->id}", $this->dados(['user_id' => $outro->id]))->assertOk();
 
-        $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'user_id' => $vaga->user_id, 'ativa' => true]);
+        $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'user_id' => $vaga->user_id]);
+    }
+
+    public function test_dono_congela_e_descongela_vaga(): void
+    {
+        $vaga = Vaga::factory()->create();
+        Sanctum::actingAs($vaga->recrutador);
+
+        $this->putJson("/api/vagas/{$vaga->id}", $this->dados(['ativa' => false]))
+            ->assertOk()
+            ->assertJson(['ativa' => false]);
+        $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'ativa' => false]);
+
+        $this->putJson("/api/vagas/{$vaga->id}", $this->dados(['ativa' => true]))
+            ->assertOk()
+            ->assertJson(['ativa' => true]);
+    }
+
+    public function test_update_sem_ativa_mantem_estado(): void
+    {
+        $vaga = Vaga::factory()->create(['ativa' => false]);
+        Sanctum::actingAs($vaga->recrutador);
+
+        $this->putJson("/api/vagas/{$vaga->id}", $this->dados())->assertOk();
+
+        $this->assertDatabaseHas('vagas', ['id' => $vaga->id, 'ativa' => false]);
+    }
+
+    public function test_update_rejeita_ativa_invalida(): void
+    {
+        $vaga = Vaga::factory()->create();
+        Sanctum::actingAs($vaga->recrutador);
+
+        $this->putJson("/api/vagas/{$vaga->id}", $this->dados(['ativa' => 'talvez']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('ativa');
     }
 
     public function test_recrutador_nao_atualiza_vaga_de_outro(): void

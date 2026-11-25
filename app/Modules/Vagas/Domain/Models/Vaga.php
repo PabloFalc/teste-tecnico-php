@@ -18,8 +18,8 @@ class Vaga extends Model
         return VagaFactory::new();
     }
 
-    // user_id e ativa ficam de fora: o dono vem do token e o congelamento terá rota própria.
-    protected $fillable = ['titulo', 'descricao', 'tipo'];
+    // user_id fica de fora: o dono vem do token. ativa = false é a vaga congelada.
+    protected $fillable = ['titulo', 'descricao', 'tipo', 'ativa'];
 
     protected function casts(): array
     {

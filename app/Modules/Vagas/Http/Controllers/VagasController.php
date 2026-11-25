@@ -22,7 +22,9 @@ class VagasController
     {
         $this->somenteDono($request, $vaga);
 
-        $vaga->update($this->validar($request));
+        $dados = $request->validate(['ativa' => ['sometimes', 'boolean']]) + $this->validar($request);
+
+        $vaga->update($dados);
 
         return response()->json($vaga);
     }
@@ -46,7 +48,6 @@ class VagasController
         ]);
     }
 
-    // Só o recrutador que criou a vaga altera ou remove.
     private function somenteDono(Request $request, Vaga $vaga): void
     {
         abort_if($request->user()->id !== $vaga->user_id, 403, 'Sem permissão.');
