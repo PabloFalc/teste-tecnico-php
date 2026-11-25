@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Modules\Vagas\Http\Controllers;
+
+use App\Modules\Vagas\Domain\Models\Vaga;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
+class VagasController
+{
+    // POST /api/vagas
+    public function store(Request $request): JsonResponse
+    {
+        $vaga = $request->user()->vagasCriadas()->create($this->validar($request));
+
+        return response()->json($vaga->fresh(), 201);
+    }
+
+    // PUT /api/vagas/{vaga}
+    public function update(Request $request, Vaga $vaga): JsonResponse
+    {
+        $this->somenteDono($request, $vaga);
+
+        $vaga->update($this->validar($request));
+
+        return response()->json($vaga);
+    }
+
+    // DELETE /api/vagas/{vaga}
+    public function destroy(Request $request, Vaga $vaga): JsonResponse
+    {
+        $this->somenteDono($request, $vaga);
+
+        $vaga->delete();
+
+        return response()->json(null, 204);
+    }
+
+    private function validar(Request $request): array
+    {
+        return $request->validate([
+            'titulo'    => ['required', 'string', 'max:255'],
+            'descricao' => ['required', 'string'],
+            'tipo'      => ['required', Rule::in(['CLT', 'PJ', 'Freelancer'])],
+        ]);
+    }
+
+    // Só o recrutador que criou a vaga altera ou remove.
+    private function somenteDono(Request $request, Vaga $vaga): void
+    {
+        abort_if($request->user()->id !== $vaga->user_id, 403, 'Sem permissão.');
+    }
+}
