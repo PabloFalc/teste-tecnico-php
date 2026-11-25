@@ -50,6 +50,26 @@ class VagasController
         return response()->json(null, 204);
     }
 
+    // GET /api/vagas/{vaga}/candidaturas  (candidatos da vaga, só o dono)
+    public function candidatos(Request $request, Vaga $vaga): JsonResponse
+    {
+        $this->somenteDono($request, $vaga);
+
+        $pageSize = min($request->integer('page_size', self::PAGE_SIZE), self::MAX_PAGE_SIZE);
+
+        return response()->json($vaga->candidatos()->paginate($pageSize));
+    }
+
+    // PATCH /api/vagas/{vaga}/congelar  (alterna ativa: congela/descongela)
+    public function alternarCongelamento(Request $request, Vaga $vaga): JsonResponse
+    {
+        $this->somenteDono($request, $vaga);
+
+        $vaga->update(['ativa' => ! $vaga->ativa]);
+
+        return response()->json($vaga);
+    }
+
     private function validar(Request $request): array
     {
         return $request->validate([

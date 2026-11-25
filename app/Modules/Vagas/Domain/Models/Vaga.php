@@ -7,6 +7,7 @@ use Database\Factories\VagaFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Vaga extends Model
 {
@@ -24,6 +25,14 @@ class Vaga extends Model
     protected function casts(): array
     {
         return ['ativa' => 'boolean'];
+    }
+
+    // Candidatos que se candidataram à vaga.
+    public function candidatos(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'candidaturas', 'vaga_id', 'candidato_id')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 
     // Recrutador dono da vaga.

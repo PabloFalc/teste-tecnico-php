@@ -9,4 +9,6 @@ Route::middleware(['auth:sanctum', 'tipo:recrutador'])->group(function () {
     Route::post('/vagas', [VagasController::class, 'store']);
     Route::put('/vagas/{vaga}', [VagasController::class, 'update']);
     Route::delete('/vagas/{vaga}', [VagasController::class, 'destroy']);
+    Route::get('/vagas/{vaga}/candidaturas', [VagasController::class, 'candidatos']);
+    Route::patch('/vagas/{vaga}/congelar', [VagasController::class, 'alternarCongelamento']);
 });
