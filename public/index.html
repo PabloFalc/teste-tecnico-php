@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vagas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Vagas</h1>
+    <p>Recrutadores publicam vagas e candidatos se candidatam.</p>
+    <a href="/pages/login.html">Entrar ou cadastrar</a>
+    <script>
+        if (localStorage.getItem('token')) location.href = '/pages/vagas.html';
+    </script>
+</body>
+</html>

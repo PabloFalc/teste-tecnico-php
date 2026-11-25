@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vagas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/pages/vagas.html">Vagas</a>
+        <a href="/pages/perfil.html">Perfil</a>
+        <button id="btn-sair">Sair</button>
+    </nav>
+
+    <div id="mensagem"></div>
+
+    <div id="area-recrutador" class="hidden">
+        <h2 id="titulo-form">Nova vaga</h2>
+        <form id="form-vaga">
+            <label>Título <input name="titulo" required></label>
+            <label>Descrição <textarea name="descricao" required></textarea></label>
+            <label>Tipo
+                <select name="tipo">
+                    <option>CLT</option>
+                    <option>PJ</option>
+                    <option>Freelancer</option>
+                </select>
+            </label>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+
+    <div id="candidatos"></div>
+
+    <h2>Vagas</h2>
+    <select id="filtro" onchange="mudarFiltro()">
+        <option value="0">Abertas</option>
+        <option value="1">Congeladas</option>
+    </select>
+    <div id="lista"></div>
+
+    <p>
+        <button id="anterior" onclick="mudarPagina(-1)">Anterior</button>
+        <span id="pagina"></span>
+        <button id="proxima" onclick="mudarPagina(1)">Próxima</button>
+    </p>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/vagas.js"></script>
+</body>
+</html>
