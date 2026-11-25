@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/pages/vagas.html">Vagas</a>
+        <a href="/pages/perfil.html">Perfil</a>
+        <button id="btn-sair">Sair</button>
+    </nav>
+
+    <div id="mensagem"></div>
+
+    <h2>Meu perfil</h2>
+    <form id="form-perfil">
+        <label>Nome <input name="nome" required></label>
+        <label>E-mail <input name="email" type="email" required></label>
+        <label>Tipo
+            <select name="tipo">
+                <option value="candidato">Candidato</option>
+                <option value="recrutador">Recrutador</option>
+            </select>
+        </label>
+        <button type="submit">Salvar</button>
+        <button type="button" id="btn-excluir">Excluir conta</button>
+    </form>
+
+    <div id="area-candidaturas">
+        <h2>Minhas candidaturas</h2>
+        <div id="lista"></div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/perfil.js"></script>
+</body>
+</html>

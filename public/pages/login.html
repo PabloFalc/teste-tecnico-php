@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entrar</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Entrar</h1>
+    <div id="mensagem"></div>
+
+    <form id="form-login">
+        <label>E-mail <input name="email" type="email" required></label>
+        <label>Senha <input name="password" type="password" required></label>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <h1>Criar conta</h1>
+    <form id="form-cadastro">
+        <label>Nome <input name="nome" required></label>
+        <label>E-mail <input name="email" type="email" required></label>
+        <label>Senha (mínimo 8) <input name="password" type="password" minlength="8" required></label>
+        <label>Tipo
+            <select name="tipo">
+                <option value="candidato">Candidato</option>
+                <option value="recrutador">Recrutador</option>
+            </select>
+        </label>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/login.js"></script>
+</body>
+</html>
